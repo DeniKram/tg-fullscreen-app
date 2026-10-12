@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>Fullscreen Mini App</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Свой «заголовок»: в fullscreen шапки Telegram нет, поэтому рисуем её сами.
+       Отступ сверху (вырез + кнопки Telegram) задаётся в style.css. -->
+  <header class="topbar">
+    <div class="avatar" id="avatar">?</div>
+    <div class="who">
+      <h1 id="name">Гость</h1>
+      <p id="handle">Открыто вне Telegram</p>
+    </div>
+    <span class="badge" id="badge">окно</span>
+  </header>
+
+  <main>
+    <section>
+      <h2>Режим экрана</h2>
+      <dl class="list" id="screen"></dl>
+    </section>
+
+    <section>
+      <h2>Сессия</h2>
+      <dl class="list" id="session"></dl>
+    </section>
+
+    <section>
+      <h2>Цвета темы Telegram</h2>
+      <div class="swatches" id="swatches"></div>
+    </section>
+
+    <section>
+      <h2>Проверка функций</h2>
+      <div class="list actions">
+        <button id="fs">Войти в полный экран</button>
+        <button id="swipe">Отключить свайп вниз</button>
+        <button id="orient">Зафиксировать ориентацию</button>
+        <button id="haptic">Вибро-отклик</button>
+        <button id="alert">Показать сообщение</button>
+        <button id="main">Показать главную кнопку</button>
+        <button id="close" class="danger">Закрыть</button>
+      </div>
+      <p class="note" id="log">Нажатий главной кнопки: 0</p>
+    </section>
+  </main>
+
+  <script src="fullscreen.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

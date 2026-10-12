@@ -1,0 +1,99 @@
+/* Цвета берутся из темы Telegram (переменные ставит telegram-web-app.js); запасные значения — для обычного браузера. */
+:root {
+  --bg: var(--tg-theme-bg-color, #ffffff);
+  --text: var(--tg-theme-text-color, #111111);
+  --hint: var(--tg-theme-hint-color, #7d7d85);
+  --accent: var(--tg-theme-button-color, #3390ec);
+  --accent-text: var(--tg-theme-button-text-color, #ffffff);
+  --group: var(--tg-theme-secondary-bg-color, #f0f0f4);
+  --sep: color-mix(in srgb, var(--hint) 30%, transparent);
+  --danger: #e5484d;
+
+  /* Safe area. Telegram сам выставляет --tg-safe-area-inset-* (вырез, статус-бар)
+     и --tg-content-safe-area-inset-* (зона кнопок Telegram поверх аппа).
+     В обычном окне обе равны 0, в fullscreen top ≈ 47 + ≈ 56 px (точные числа даёт клиент). */
+  --safe-top: calc(
+    var(--tg-safe-area-inset-top, env(safe-area-inset-top, 0px)) +
+    var(--tg-content-safe-area-inset-top, 0px)
+  );
+  --safe-bottom: var(--tg-safe-area-inset-bottom, env(safe-area-inset-bottom, 0px));
+  --safe-left: var(--tg-safe-area-inset-left, env(safe-area-inset-left, 0px));
+  --safe-right: var(--tg-safe-area-inset-right, env(safe-area-inset-right, 0px));
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: var(--tg-theme-bg-color, #17181c);
+    --text: var(--tg-theme-text-color, #f2f2f5);
+    --hint: var(--tg-theme-hint-color, #8d8d96);
+    --group: var(--tg-theme-secondary-bg-color, #232429);
+  }
+}
+
+* { box-sizing: border-box; margin: 0; }
+
+/* Фон рисуем на всю высоту, чтобы он был и под вырезом, и под нижней полоской. */
+html, body { min-height: 100dvh; background: var(--group); }
+body {
+  font: 16px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: var(--text);
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+/* Собственная шапка: фон доходит до самого верха экрана, а содержимое сдвинуто вниз на safe area. */
+.topbar {
+  display: flex; gap: 14px; align-items: center;
+  background: var(--bg);
+  padding: calc(var(--safe-top) + 8px) calc(var(--safe-right) + 16px) 14px calc(var(--safe-left) + 16px);
+  border-bottom: 1px solid var(--sep);
+}
+.avatar {
+  width: 48px; height: 48px; border-radius: 50%; overflow: hidden;
+  background: var(--accent); color: var(--accent-text);
+  display: grid; place-items: center; font-size: 22px; font-weight: 600; flex: none;
+}
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
+.who { flex: 1; min-width: 0; }
+h1 { font-size: 18px; font-weight: 650; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.who p { color: var(--hint); font-size: 13px; }
+
+/* Индикатор режима. Справа оставляем место под кнопки Telegram: их зону уже учла safe-top, но не ширина. */
+.badge {
+  flex: none; font-size: 12px; font-weight: 600;
+  padding: 4px 10px; border-radius: 999px;
+  background: var(--group); color: var(--hint);
+}
+.badge.on { background: var(--accent); color: var(--accent-text); }
+
+main {
+  max-width: 560px; margin: 0 auto;
+  padding: 8px calc(var(--safe-right) + 16px) calc(var(--safe-bottom) + 96px) calc(var(--safe-left) + 16px);
+}
+
+section { margin-top: 22px; }
+h2 { font-size: 13px; font-weight: 500; color: var(--hint); padding: 0 16px 6px; }
+
+.list { background: var(--bg); border-radius: 12px; overflow: hidden; }
+.row { display: flex; justify-content: space-between; gap: 12px; padding: 12px 16px; }
+.row + .row, .actions button + button { border-top: 1px solid var(--sep); }
+dt { color: var(--hint); }
+dd { text-align: right; overflow-wrap: anywhere; }
+
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; }
+.sw { background: var(--bg); border-radius: 12px; padding: 8px; font-size: 12px; }
+.chip { height: 40px; border-radius: 8px; border: 1px solid var(--sep); margin-bottom: 6px; }
+.sw b { display: block; font-weight: 500; overflow-wrap: anywhere; }
+.sw span { color: var(--hint); font-family: ui-monospace, Menlo, Consolas, monospace; }
+
+.actions button {
+  all: unset; display: block; width: 100%; box-sizing: border-box;
+  padding: 14px 16px; color: var(--accent); cursor: pointer;
+}
+.actions button:active { background: var(--group); }
+.actions button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.actions .danger { color: var(--danger); }
+.note { color: var(--hint); font-size: 13px; padding: 8px 16px 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .actions button { transition: background .12s; }
+}
